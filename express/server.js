@@ -28,12 +28,12 @@ router.get("/sites/:site/addIp/:ip", (req, res) => {
       }
       database = client.db(DATABASE_NAME);
       collection = database.collection("test1");
-      collection.insert(
-        { site: req.params["site"], ip: req.params["ip"] },
+      let newData = { site: req.params["site"], ip: req.params["ip"] }
+      collection.update(
+        newData, newData, {upsert: true},
         (error, result) => {
           if (error) {
             res.send("bad");
-            // return res.status(500).send(error);
           } else {
             res.send("good");
           }
